@@ -17,8 +17,7 @@ esg_scores = esg_scores[esg_scores.score_value != 0]
 esg_scores = esg_scores.dropna()
 esg_scores.drop_duplicates(subset=['assessment_year', 'company_id', 'aspect'], inplace = True)
 
-df_companies = df_companies[df_companies.company_id.isin(esg_scores.company_id.unique())] ##ja tirou companhias repetidas
-
+df_companies = df_companies[df_companies.company_id.isin(esg_scores.company_id.unique())].sort_values(by='company_id')
 
 df_companies_financials['ref_year'] = pd.to_datetime(df_companies_financials.ref_date).dt.year
 df_companies_financials['real_data_item_values'] = df_companies_financials['data_item_value'] * df_companies_financials.unit_value
@@ -29,11 +28,6 @@ df = df_companies.sort_values(by='industry')
 industries = df['industry'].unique()
 industries  = np.insert(industries, 0, 'Não dividir por indústria' ) ### ou apenas um traço como -?
 
-def select_industry():
-    industry = st.sidebar.selectbox("Escolha uma indústria:", 
-               industries
-        	   )
-    return industry
 
 def select_env_company():
     dict_nomes = {}
@@ -70,7 +64,7 @@ def generate_env_graph(fin_df):
     # fig.update_xaxes(nticks = len(fin_df['fiscal_year'].values))
 
     fig = ex.line(x=fin_df['fiscal_year'], y=fin_df['data_item_value'], title = f"{fin_df['unit'].iloc[0]} por ano",
-    labels = {'x': 'Year', 'y': f"Value, in {fin_df['unit'].iloc[0]}"})
+    labels = {'x': 'Year', 'y': f"Value in {fin_df['unit'].iloc[0]}"})
 
     return fig
 
@@ -87,8 +81,8 @@ def app ():
     st.write("""
         Ferramenta para ajudar investidores a avaliar a pontuação ESG de empresas
         """
-)
-    #select_industry = select_industry()
+    )
+
 
     cp, cp_env_id = select_env_company()
 
