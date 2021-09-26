@@ -44,7 +44,7 @@ def get_esg_score(company_id, esg_aspect):
     return esg_score
 
 def generate_esg_graph(esg_df):
-    fig = go.Figure(data = go.Scatter(x=esg_df.assessment_year.values, y=esg_df.score_value.values))
+    fig = go.Figure(data = go.Scatter(x=esg_df.assessment_year.values, y=esg_df.score_value.values, line=dict(color="#ff0000")))
     fig.update_xaxes(nticks = len(esg_df.assessment_year.values))
 
     return fig
@@ -65,7 +65,7 @@ def generate_esg_fin_graph(esg_df, fin_df):
 
     reg = LinearRegression().fit(esg_fin_merged['score_value'].values.reshape(-1, 1), esg_fin_merged['real_data_item_values'].values)
     
-    fig = go.Figure(data = go.Scatter(x=esg_fin_merged['score_value'].values, y=esg_fin_merged['real_data_item_values'].values, mode='markers'))
+    fig = go.Figure(data = go.Scatter(x=esg_fin_merged['score_value'].values, y=esg_fin_merged['real_data_item_values'].values, mode='markers', marker=dict(color='#00FF00'), showlegend=False))
 
     fig.add_trace(
             go.Scatter(x=esg_fin_merged['score_value'].values,
@@ -76,7 +76,7 @@ def generate_esg_fin_graph(esg_df, fin_df):
             )
     )
 
-    return fig
+    return esg_fin_merged.corr().loc['score_value', 'real_data_item_values'], fig
 
 company_id, selected_company = select_company()
 
@@ -102,5 +102,6 @@ fin_fig = generate_fin_graph(financials_by_year)
 st.plotly_chart(fin_fig)
 
 st.write("""# {}  X {}""".format(selected_esg_score, selected_data_item))
-fin_esg_fig = generate_esg_fin_graph(esg_score, financials_by_year)
+corr, fin_esg_fig = generate_esg_fin_graph(esg_score, financials_by_year)
 st.plotly_chart(fin_esg_fig)
+st.write(''' Correlação: {}'''.format(corr))
