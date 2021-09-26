@@ -3,7 +3,6 @@ import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
 import plotly.express as ex
-#from sklearn.linear_model import LinearRegression
 
 
 
@@ -99,8 +98,3 @@ def app ():
     st.plotly_chart(figg1)
     st.plotly_chart(figg2)
     st.plotly_chart(figg3)
-
-    #st.write("""# oi {}""".format(select_industry))
-
-
-
