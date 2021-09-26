@@ -66,13 +66,19 @@ def get_env_by_year(company_id, data_item):
     return return_df
 
 def generate_env_graph(fin_df):
-    fig = go.Figure(data = go.Scatter(x=fin_df['fiscal_year'], y=fin_df['data_item_value']))
-    fig.update_xaxes(nticks = len(fin_df['fiscal_year'].values))
+    # fig = go.Figure(data = go.Scatter(x=fin_df['fiscal_year'], y=fin_df['data_item_value']))
+    # fig.update_layout(text = f"{fin_df['unit'].iloc[0]} por ano")
+    # fig.update_xaxes(nticks = len(fin_df['fiscal_year'].values))
+
+    fig = ex.line(x=fin_df['fiscal_year'], y=fin_df['data_item_value'], title = f"{fin_df['unit'].iloc[0]} por ano",
+    labels = {'x': 'Year', 'y': f"Value, in {fin_df['unit'].iloc[0]}"})
 
     return fig
 
-def generate_env_scatter(df1, df2):
-    fig = ex.scatter(x=df1['data_item_value'], y=df2['data_item_value'])
+def generate_env_scatter(df1, df2, env_item, env_item2):
+    fig = ex.scatter(x=df1['data_item_value'], y=df2['data_item_value'],
+    title="Gráfico de dispersão dos indicadores escolhidos",
+    labels = {'x': f"{env_item}",'y': f"{env_item2}"})
 
     return fig
 
@@ -95,7 +101,7 @@ def app ():
     df_2 = get_env_by_year(cp_env_id, env_item2)
     figg1 = generate_env_graph(df_1)
     figg2 = generate_env_graph(df_2)
-    figg3 = generate_env_scatter(df_1, df_2)
+    figg3 = generate_env_scatter(df_1, df_2, env_item, env_item2)
     st.plotly_chart(figg1)
     st.plotly_chart(figg2)
     st.plotly_chart(figg3)
