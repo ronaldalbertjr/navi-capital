@@ -32,10 +32,11 @@ def select_industry():
     return industry
 
 def select_company(industry):
+    ## em ordem alfabetica
     if (industry != 'Não dividir por indústria'):
-        dg_companies = df_companies[df_companies['industry'] == industry]
+        dg_companies = df_companies[df_companies['industry'] == industry].sort_values(by='company_name')
     else:
-        dg_companies = df_companies #### por ser var local isso nao iria modificar df companies ao modificar dg comapnies? ou entao copia
+        dg_companies = df_companies.sort_values(by='company_name') #### por ser var local isso nao iria modificar df companies ao modificar dg comapnies? ou entao copia
     company = st.sidebar.selectbox("Escolha uma empresa:",
             dg_companies.company_name.values
             )
@@ -49,8 +50,10 @@ def select_data_item(company_id):
     return data_item
 
 def select_esg_score(company_id):
+    ###  em ordem alfabetica e sem repeticao
     score = st.sidebar.selectbox("Escolha uma métrica do ESG",
-            esg_scores[esg_scores.company_id.eq(company_id)].aspect.values)
+            np.unique(esg_scores[esg_scores.company_id.eq(company_id)].sort_values(by='aspect').aspect.values)
+            )
 
     return score
 
@@ -66,7 +69,9 @@ def generate_esg_graph(esg_df):
     return fig
 
 def get_financials_by_year(company_id, data_item):    
-    return_df =  df_companies_financials[df_companies_financials.company_id.eq(company_id) & df_companies_financials.data_item.eq(data_item)][['ref_year', 'real_data_item_values']]
+    ## tentei nao foi - COLOCAR ORDEM ALFABETICA
+    return_df =  df_companies_financials[df_companies_financials.company_id.eq(company_id) & df_companies_financials.data_item.eq(data_item)][['ref_year', 'real_data_item_values']].sort_values(by='data_item')
+
 
     return return_df    
 
