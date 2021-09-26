@@ -5,11 +5,6 @@ import plotly.graph_objects as go
 #from sklearn.linear_model import LinearRegression
 import ipywidgets as widgets
 
-st.write("""
-        # Hackaton Navi-Capital
-        Ferramenta para ajudar investidores a avaliar a pontuação ESG de empresas
-        """
-)
 
 ### abrir dataframes desejados
 df_companies = pd.read_csv("datasets/companies_br.csv")
@@ -103,6 +98,12 @@ def generate_fin_graph(fin_df):
   #  return fig
 def app ():
     
+    st.write("""
+        Ferramenta para ajudar investidores a avaliar a pontuação ESG de empresas.
+
+        Escolha sua métrica financeira e métrica ESG para visualizar em uma data empresa e setor.
+        """
+)
     selected_industry = select_industry()
 
     st.write("""# {}""".format(selected_industry))
