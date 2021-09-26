@@ -11,14 +11,22 @@ st.write("""
         """
 )
 
+### abrir dataframes desejados
 df_companies = pd.read_csv("datasets/companies_br.csv")
 df_companies_financials = pd.read_csv("datasets/companies_financials_br.csv")
 esg_scores = pd.read_csv("datasets/esg_scores_history_br.csv")
+
+### manipulacao dos dataframes
 esg_scores = esg_scores[esg_scores.score_value != 0]
 esg_scores = esg_scores.dropna()
-df_companies = df_companies[df_companies.company_id.isin(esg_scores.company_id.unique())]
+esg_scores.drop_duplicates(subset=['assessment_year', 'company_id', 'aspect'], inplace = True)
+
+df_companies = df_companies[df_companies.company_id.isin(esg_scores.company_id.unique())] ##ja tirou companhias repetidas
+
+
 df_companies_financials['ref_year'] = pd.to_datetime(df_companies_financials.ref_date).dt.year
 df_companies_financials['real_data_item_values'] = df_companies_financials['data_item_value'] * df_companies_financials.unit_value
+df_companies_financials.drop_duplicates(subset=['ref_year', 'company_id', 'data_item'], inplace = True)
 
 #### adicionando alternativa de nenhuma industria
 df = df_companies.sort_values(by='industry')
@@ -32,7 +40,6 @@ def select_industry():
     return industry
 
 def select_company(industry):
-    ## em ordem alfabetica
     if (industry != 'Não dividir por indústria'):
         dg_companies = df_companies[df_companies['industry'] == industry].sort_values(by='company_name')
     else:
@@ -44,17 +51,16 @@ def select_company(industry):
     return dg_companies[dg_companies.company_name.eq(company)].company_id.values[0] ,company
 
 def select_data_item(company_id):
-    data_item = st.sidebar.selectbox("Escolha um Indicador",
+    data_item = st.sidebar.selectbox("Escolha um indicador financeiro",
             df_companies_financials[df_companies_financials.company_id.eq(company_id)].data_item.values
             ) 
     return data_item
 
 def select_esg_score(company_id):
-    ###  em ordem alfabetica e sem repeticao
-    score = st.sidebar.selectbox("Escolha uma métrica do ESG",
+    score = st.sidebar.selectbox("Escolha um indicador de ESG",
             np.unique(esg_scores[esg_scores.company_id.eq(company_id)].sort_values(by='aspect').aspect.values)
             )
-
+    
     return score
 
 def get_esg_score(company_id, esg_aspect):
@@ -69,11 +75,8 @@ def generate_esg_graph(esg_df):
     return fig
 
 def get_financials_by_year(company_id, data_item):    
-    ## tentei nao foi - COLOCAR ORDEM ALFABETICA
-    return_df =  df_companies_financials[df_companies_financials.company_id.eq(company_id) & df_companies_financials.data_item.eq(data_item)][['ref_year', 'real_data_item_values']].sort_values(by='data_item')
-
-
-    return return_df    
+    return_df =  df_companies_financials[df_companies_financials.company_id.eq(company_id) & df_companies_financials.data_item.eq(data_item)][['ref_year', 'real_data_item_values']]
+    return return_df
 
 def generate_fin_graph(fin_df):
     fig = go.Figure(data = go.Scatter(x=fin_df.ref_year.values, y=fin_df.real_data_item_values.values))
