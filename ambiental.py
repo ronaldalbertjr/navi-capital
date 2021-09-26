@@ -50,11 +50,11 @@ def select_env_company():
     return company, dict_nomes[company]
 
 def select_envdata_item(company_id):
-    data_item = st.sidebar.selectbox("Escolha um Indicador",
+    data_item = st.sidebar.selectbox("Escolha um indicador",
             env_data['data_item_name'].unique()
             )
 
-    data_item2 = st.sidebar.selectbox("Escolha um segundo Indicador ambiental",
+    data_item2 = st.sidebar.selectbox("Escolha um segundo indicador ambiental",
             env_data['data_item_name'].unique()
             )
     return data_item, data_item2
