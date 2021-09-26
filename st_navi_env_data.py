@@ -82,11 +82,18 @@ def generate_esg_fin_graph(esg_df, fin_df):
 
 #########
 def select_env_company():
+    dict_nomes = {}
+    for i in env_data['company_id'].unique():
+        if i in df_companies['company_id'].unique():
+            dict_nomes[df_companies[df_companies['company_id']==i]['company_name'].values[0]] = i
+    
     company = st.sidebar.selectbox("Escolha uma empresa ambiental:",
-            env_data['company_id'].unique()
+            dict_nomes.keys()
             )
 
-    return company
+    #return df_companies[df_companies['company_id']==company].company_id.values[0] ,company
+
+    return company, dict_nomes[company]
 
 def select_envdata_item(company_id):
     data_item = st.sidebar.selectbox("Escolha um Indicador ambiental",
@@ -145,9 +152,9 @@ st.write(''' Correlação: {}'''.format(corr))
 
 #########--------------------- Graficos ambientais -----------------------
 
-cp_env_id = select_env_company()
+cp, cp_env_id = select_env_company()
 
-st.write("""# Empresa ambiental escolhida: {}""".format(cp_env_id))
+st.write("""# Empresa ambiental escolhida: {}""".format(cp))
 
 env_item, env_item2 = select_envdata_item(cp_env_id)
 
