@@ -10,11 +10,11 @@ st.write("""
         Ferramenta para ajudar investidores a avaliar a pontuação ESG de empresas
         """
 )
-path_ = 'C:/Users/Andre/Desktop/UFRJ/analytica/navi_tech_journey/download_script'
-df_companies = pd.read_csv(f"{path_}/companies_br.csv")
-df_companies_financials = pd.read_csv(f"{path_}/companies_financials_br.csv")
-env_data = pd.read_csv(f'{path_}/environmental_data_history_br.csv')
-esg_scores = pd.read_csv(f"{path_}/esg_scores_history_br.csv")
+
+df_companies = pd.read_csv("datasets/companies_br.csv")
+df_companies_financials = pd.read_csv("datasets/companies_financials_br.csv")
+env_data = pd.read_csv("datasets/environmental_data_history_br.csv")
+esg_scores = pd.read_csv("datasets/esg_scores_history_br.csv")
 esg_scores = esg_scores[esg_scores.score_value != 0]
 esg_scores = esg_scores.dropna()
 df_companies = df_companies[df_companies.company_id.isin(esg_scores.company_id.unique())]
