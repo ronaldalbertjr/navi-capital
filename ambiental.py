@@ -23,6 +23,8 @@ df_companies_financials['ref_year'] = pd.to_datetime(df_companies_financials.ref
 df_companies_financials['real_data_item_values'] = df_companies_financials['data_item_value'] * df_companies_financials.unit_value
 df_companies_financials.drop_duplicates(subset=['ref_year', 'company_id', 'data_item'], inplace = True)
 
+env_data.drop_duplicates(subset=['fiscal_year', 'company_id', 	'data_item_name'], inplace = True)
+
 #### adicionando alternativa de nenhuma industria
 df = df_companies.sort_values(by='industry')
 industries = df['industry'].unique()
