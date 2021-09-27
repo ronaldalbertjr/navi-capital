@@ -81,7 +81,7 @@ def generate_env_scatter(df1, df2, env_item, env_item2):
 def app ():
     
     st.write("""
-        Ferramenta para ajudar investidores a avaliar a pontuação ESG de empresas
+        Ferramenta para ajudar investidores a avaliar a pontuação ambiental de empresas
         """
     )
 

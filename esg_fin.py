@@ -46,13 +46,13 @@ def select_company(industry):
     return dg_companies[dg_companies.company_name.eq(company)].company_id.values[0] ,company
 
 def select_data_item(company_id):
-    data_item = st.sidebar.selectbox("Escolha um indicador financeiro",
+    data_item = st.sidebar.selectbox("Escolha um indicador financeiro:",
             df_companies_financials[df_companies_financials.company_id.eq(company_id)].data_item.values
             ) 
     return data_item
 
 def select_esg_score(company_id):
-    score = st.sidebar.selectbox("Escolha um indicador de ESG",
+    score = st.sidebar.selectbox("Escolha um indicador de ESG:",
             np.unique(esg_scores[esg_scores.company_id.eq(company_id)].sort_values(by='aspect').aspect.values)
             )
     
