@@ -1,5 +1,13 @@
 # Navi Tech Journey
 Repósitorio para a competição da Navi Tech Journey
+Este projeto foi desenvolvido por
+ <ul>
+  <li>André Luiz Rosário</li>
+  <li>Caue Caviglioni</li>
+  <li>David Medeiros</li>
+  <li>Maria Clara Werneck</li>
+  <li>Ronald Albert</li>
+</ul> 
 
 # Descrição do App:
 
@@ -40,4 +48,10 @@ streamlit run app.py
 O aplicativo será executado no servidor local na porta 8501, e pode ser acessado em algum browser por meio da url
 ```
 http://localhost:8501/
+```
+
+# App disponível na rede
+O aplicativo também esta disponível na url
+```
+https://alisanalytica.loca.lt/
 ```
