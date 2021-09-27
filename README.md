@@ -1,6 +1,16 @@
 # Navi Tech Journey
 Repósitorio para a competição da Navi Tech Journey
 
+# Descrição do App:
+
+No aplicativo, há três páginas:
+
+- Hackathon Navi-Capital: Página inicial.
+- ESG x métrica financeira: Página em que há gráficos relacionando à métrica financeira escolhida, e a métrica ESG de uma empresa escolhida.
+- Análise ambiental: Página em que é possível comparar dados, de uma empresa escolhida, relacionados ao impacto ambiental em diferentes setores, custos, receita, etc.
+
+Nas duas últimas páginas citadas, há gráficos interativos, que mudam de acordo com os parâmetros escolhidos na barra horizontal do aplicativo.
+
 # Antes de executar o aplicativo
 Antes de executar a nossa solução para o Hackaton, é necessário executar todas as dependências do python necessárias para a execução.<br>
 Elas estão disponiveis em [requirements.txt](requirements.txt), e podem ser instaladas por meio do comando:
