@@ -111,11 +111,11 @@ def app ():
 
     company_id, selected_company = select_company(selected_industry)
 
-    st.write("""# {}""".format(selected_company))
+    st.markdown("""<h2> {} </h2>""".format(selected_company), unsafe_allow_html=True)
 
     selected_esg_score = select_esg_score(company_id)
 
-    st.write("""# {}""".format(selected_esg_score))
+    st.markdown("""<h2> {} </h2>""".format(selected_esg_score), unsafe_allow_html=True)
     esg_score = get_esg_score(company_id, selected_esg_score)
 
     esg_fig = generate_esg_graph(esg_score)
@@ -124,7 +124,7 @@ def app ():
     st.plotly_chart(esg_fig)
 
     selected_data_item = select_data_item(company_id)
-    st.write("""# Indicador Financeiro: {} """.format(selected_data_item))
+    st.markdown("""<h2> Indicador Financeiro: {} </h2> """.format(selected_data_item), unsafe_allow_html=True)
 
     financials_by_year = get_financials_by_year(company_id, selected_data_item)
     st.write(financials_by_year.set_index('ref_year'))
@@ -133,6 +133,6 @@ def app ():
     st.plotly_chart(fin_fig)
 
 
-    st.write("""# {}  X {}""".format(selected_esg_score, selected_data_item))
+    st.markdown("""<h2> {}  X {} </h2>""".format(selected_esg_score, selected_data_item), unsafe_allow_html=True)
     fin_esg_fig = generate_esg_fin_graph(esg_score, financials_by_year)
     st.plotly_chart(fin_esg_fig)

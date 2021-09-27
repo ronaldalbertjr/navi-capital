@@ -46,11 +46,11 @@ def select_env_company():
     return company, dict_nomes[company]
 
 def select_envdata_item(company_id):
-    data_item = st.sidebar.selectbox("Escolha um indicador",
+    data_item = st.sidebar.selectbox("Escolha um indicador:",
             env_data['data_item_name'].unique()
             )
 
-    data_item2 = st.sidebar.selectbox("Escolha um segundo indicador ambiental",
+    data_item2 = st.sidebar.selectbox("Escolha um segundo indicador ambiental:",
             env_data['data_item_name'].unique()
             )
     return data_item, data_item2
@@ -91,12 +91,14 @@ def app ():
     st.write("""# Empresa escolhida: {}""".format(cp))
 
     env_item, env_item2 = select_envdata_item(cp_env_id)
-
+    
     df_1 = get_env_by_year(cp_env_id, env_item)
     df_2 = get_env_by_year(cp_env_id, env_item2)
     figg1 = generate_env_graph(df_1)
     figg2 = generate_env_graph(df_2)
     figg3 = generate_env_scatter(df_1, df_2, env_item, env_item2)
+    st.markdown("""<h2>Indicador ambiental: {}</h2>""".format(env_item), unsafe_allow_html=True)
     st.plotly_chart(figg1)
+    st.markdown("""<h2>Indicador ambiental: {}</h2>""".format(env_item2), unsafe_allow_html=True)
     st.plotly_chart(figg2)
     st.plotly_chart(figg3)
